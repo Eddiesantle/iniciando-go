@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+// Definindo a estrutura ViaCEP para armazenar os dados do CEP
 type ViaCEP struct {
 	Cep string `json:"cep"`
 	// XPTO string `json:"cep"` // poderia ser tbm
@@ -18,6 +19,8 @@ type ViaCEP struct {
 	Uf          string `json:"uf"`
 }
 
+
+// Função para somar dois números e retornar o resultado ou um erro
 func soma(a, b int) (int, error) {
 	if a > b {
 		return a + b, nil
@@ -25,12 +28,14 @@ func soma(a, b int) (int, error) {
 	return 0, errors.New("b não pode ser maior que a")
 }
 
+// Método que define o valor do CEP na estrutura ViaCEP
 // Ponteiro( *STRUCT ): adicionando ele substitui, se deixar sem ele apenas copia
 func (v *ViaCEP) SetCep(cep string){
 	v.Cep = cep
 	fmt.Println(v.Cep)
 }
 
+// Método que retorna o endereço completo baseado nos campos da estrutura ViaCEP
 func (v ViaCEP) EnderecoCompleto() string {
 	// METODO porque tem uma struct anexado
 	return fmt.Sprintf("%s, %s, %s, %s, %s", v.Logradouro, v.Complemento, v.Bairro, v.Localidade, v.Uf)
@@ -50,6 +55,7 @@ func main() {
 	}
 	fmt.Println(cep) */
 
+	// Exemplo de utilização de funções e métodos
 	/* fmt.Println(soma(1,2))
 	resultado, err := soma(1, 2)
 	if err != nil {
@@ -57,6 +63,7 @@ func main() {
 	}
 	fmt.Println(resultado)*/
 
+	// Exemplo de requisição HTTP para obter informações do CEP usando a API ViaCEP
 	cep := "01001000"
 	req, err := http.Get("https://viacep.com.br/ws/" + cep + "/json/")
 	if err != nil {
@@ -64,27 +71,30 @@ func main() {
 		panic(err)
 	}
 	defer req.Body.Close()
-	// Faz a leitura do body da requisição
+
+	// Lê o corpo da requisição
 	res, err := io.ReadAll(req.Body)
 	if err != nil {
 		//parar programa
 		panic(err)
 	}
 
+	// Converte o JSON para a estrutura ViaCEP
 	var data ViaCEP
 	err = json.Unmarshal(res, &data)
 	if err != nil {
 		//parar programa
 		panic(err)
 	}
+
 	// Se o retorno da tag for com letra maiuscula, diferente do struct ViaCEP que começa com letra maiuscula
 	// {"cep:", "06011010"}
+	// Imprime a localidade do CEP e o endereço completo
 	fmt.Println(data.Localidade)
-
 	fmt.Println(data.EnderecoCompleto())
 	
 
 	println("Hello, word")
-	// subir servidor
+	// Inicia um servidor HTTP na porta 8080
 	http.ListenAndServe(":8080", nil)
 }
