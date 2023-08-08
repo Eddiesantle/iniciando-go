@@ -1,4 +1,4 @@
-module github.com/Eddiesantle/iniciando-go
+module github.com/Eddiesantle/iniciando-go.git
 
 go 1.17 // Pode ser a versão que você está usando
 
