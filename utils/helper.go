@@ -17,7 +17,7 @@ type ViaCEP struct {
 }
 
 // Função para somar dois números e retornar o resultado ou um erro
-func soma(a, b int) (int, error) {
+func Soma(a, b int) (int, error) {
 	if a > b {
 		return a + b, nil
 	}
@@ -38,7 +38,7 @@ func (v ViaCEP) EnderecoCompleto() string {
 }
 
 // Função que simula uma tarefa
-func task(name string) {
+func Task(name string) {
 	for i := 0; i < 10; i++ {
 		fmt.Println(name, ":", i)
 		time.Sleep(time.Second)
@@ -48,7 +48,7 @@ func task(name string) {
 // Função que representa um worker que recebe e executa tarefas
 // LOADBALANCE -> Recebe e manda para worker
 // WORKER -> Executa tarefa
-func worker(workerId int, data chan int) {
+func Worker(workerId int, data chan int) {
 	for x := range data {
 		fmt.Printf("Worker %d received %d\n", workerId, x)
 		time.Sleep(time.Second)
